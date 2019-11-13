@@ -7,28 +7,24 @@ const initialLogin = {
 }
 
 const Login = (props) => {
-  const [login, setLogin] = useState(initialLogin);
+  const [login, setLogin] = useState(initialLogin)
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     e.persist()
-      let value = e.target.value
-
-      setLogin({...login, [e.target.name]: value})
+      setLogin({...login, [e.target.name]: e.target.value})
 }
 
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   const handleSubmit = e => {
     e.preventDefault();
-    axios
-      .post('http://localhost:3000/api/login', login)
-      .then(res => {
-        localStorage.setItem('token', res.data.token);
-        setLogin(initialLogin)
+    axios.post('http://localhost:5000/api/login', login)
+      .then(res => { 
+        localStorage.setItem('token', res.data.payload);
         props.history.push('/bubble-page');
       })
+      .catch(err => console.log(err.response))
   }
-
 
   return (
     <>
